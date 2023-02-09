@@ -139,7 +139,6 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
     duplicate = 0
     errors = 0
     deleted = 0
-    no_media = 0
     unsupported = 0
     async with lock:
         try:
@@ -166,13 +165,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                     unsupported += 1
                     continue
                 media = getattr(message, message.media.value, None)
-                if not media:
-                    unsupported += 1
-                    continue
-                media.file_type = message.media.value
-                media.caption = message.caption
-                aynav, vnay = await save_file(media)
-                if aynav:
+       
                     total_files += 1
                 elif vnay == 0:
                     duplicate += 1
@@ -182,4 +175,4 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
             logger.exception(e)
             await msg.edit(f'Error: {e}')
         else:
-            await msg.edit(f'Succesfully saved <code>{total_files}</code> to dataBase!\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>(Unsupported Media - `{unsupported}` )\nErrors Occurred: <code>{errors}</code>')
+            await msg.edit(f'Succesfully saved <code>{total_files}</code> to dataBase!\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nErrors Occurred: <code>{errors}</code>')
