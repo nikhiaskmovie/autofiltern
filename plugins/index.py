@@ -2,7 +2,7 @@ import logging
 import asyncio
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait
-from Config import ADMINS
+from info import ADMINS
 import os
 from LuciferMoringstar_Robot.Utils import save_file
 import pyromod.listen
